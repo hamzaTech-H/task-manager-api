@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\V1\UserFilter;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,9 +13,9 @@ class UserController extends ApiController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(UserFilter $filters)
     {
-        return UserResource::collection(User::paginate());
+        return UserResource::collection(User::filter($filters)->paginate());
     }
 
     /**

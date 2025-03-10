@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\V1\TaskFilter;
 use App\Http\Resources\V1\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -12,10 +13,17 @@ class TaskController extends ApiController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(TaskFilter $filters)
     {
-        return TaskResource::collection(Task::paginate());
+ 
+        return TaskResource::collection(Task::filter($filters)->paginate());
     }
+
+    //     if ($request->has('title')) {
+    //         $value = $request->get('title');
+    //         return TaskResource::collection(Task::title($value)->paginate());
+    //     }
+    // }
 
     /**
      * Store a newly created resource in storage.

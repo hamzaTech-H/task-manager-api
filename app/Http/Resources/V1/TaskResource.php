@@ -25,8 +25,8 @@ class TaskResource extends JsonResource
                 ),
                 'status' => $this->status,
                 'dueDate' => $this->due_date,
-                'createdAt' => $this->created_at,
-                'updatedAt' => $this->updated_at
+                'createdAt' => $this->created_at->format('Y-m-d H:i:s'),
+                'updatedAt' => $this->updated_at->format('Y-m-d H:i:s')
             ],
             'relationships' => [
                 'author' => [
