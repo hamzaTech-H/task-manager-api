@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\TaskResource;
-use App\Models\Task;
+use App\Http\Resources\V1\UserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class TaskController extends ApiController
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return TaskResource::collection(Task::paginate());
+        return UserResource::collection(User::paginate());
     }
 
     /**
@@ -28,12 +28,12 @@ class TaskController extends ApiController
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(User $user)
     {
-        if ($this->include('user')) {
-            return  new TaskResource($task->load('user'));
+        if ($this->include('tasks')) {
+            return new UserResource($user->load('tasks'));
         }
-        return new TaskResource($task);
+        return new UserResource($user);
     }
 
     /**
