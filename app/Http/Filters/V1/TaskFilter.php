@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class TaskFilter extends QueryFilter
 {
+    protected $sortable = [
+        'title',
+        'status',
+        'dueDate' => 'due_date',
+        'createdAt' => 'created_at',
+        'updatedAt' => 'updated_at'
+    ];
+
     protected function createdAt($value) 
     {
         $dates = explode(',', $value);

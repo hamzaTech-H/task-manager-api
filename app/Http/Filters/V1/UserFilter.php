@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class UserFilter extends QueryFilter
 {
+    protected $sortable = [
+        'name',
+        'email',
+        'createdAt' => 'created_at',
+        'updatedAt' => 'updated_at'
+    ];
+
     protected function createdAt($value) 
     {
         $dates = explode(',', $value);
