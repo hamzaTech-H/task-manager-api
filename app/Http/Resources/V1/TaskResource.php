@@ -20,7 +20,7 @@ class TaskResource extends JsonResource
             'attributes' => [
                 'title' => $this->title,
                 'description' => $this->when(
-                    $request->routeIs('tasks.show'),
+                    !$request->routeIs(['tasks.index', 'users.tasks.index']),
                     $this->description
                 ),
                 'status' => $this->status,

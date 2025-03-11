@@ -5,7 +5,14 @@ use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\UserTasksController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')->apiResource('tasks', TaskController::class);
-Route::middleware('auth:sanctum')->apiResource('users', UserController::class);
-Route::middleware('auth:sanctum')->apiResource('users.tasks', UserTasksController::class);
+Route::middleware('auth:sanctum')->group(function() {
+    Route::apiResource('tasks', TaskController::class)->except('update');
+    Route::put('tasks/{task}', [TaskController::class, 'replace']);
+    Route::patch('tasks/{task}', [TaskController::class, 'update']);
 
+    Route::apiResource('users', UserController::class);
+
+    Route::apiResource('users.tasks', UserTasksController::class)->except('update');
+    Route::put('users/{user}/tasks/{task}', [UserTasksController::class, 'replace']);
+    Route::patch('users/{user}/tasks/{task}', [UserTasksController::class, 'update']);
+});
