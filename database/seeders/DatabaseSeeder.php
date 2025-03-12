@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use PHPUnit\Framework\Attributes\Ticket;
 
+use function Laravel\Prompts\password;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -18,5 +20,12 @@ class DatabaseSeeder extends Seeder
         $users = User::factory(10)->create();
 
         Task::factory(100)->recycle($users)->create();
+
+        User::create([
+            'email' => 'manager@manager.com',
+            'password' => bcrypt('password'),
+            'name' => 'The Manager',
+            'is_manager' => true
+        ]);
     }
 }

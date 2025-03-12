@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\V1;
 
+use App\Permissions\V1\Abilities;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTaskRequest extends BaseTaskRequest
@@ -21,17 +22,26 @@ class StoreTaskRequest extends BaseTaskRequest
      */
     public function rules(): array
     {
+        $user = $this->user();
+        $authorIdAttr = $this->routeIs('tasks.store') ? 'data.relationships.author.data.id' : 'user';
+
         $rules = [
             'data.attributes.title' => ['required','string'],
             'data.attributes.description' => ['required','string'],
             'data.attributes.status' => ['required','string','in:pending,in_progress,completed,on_hold,cancelled'],
-            'data.attributes.dueDate' => ['nullable', 'date']
+            'data.attributes.dueDate' => ['nullable', 'date'],
+            $authorIdAttr => ['required','integer','exists:users,id',"size:{$user->id}"]
         ];
 
-        if ($this->routeIs('tasks.store')) {
-            $rules['data.relationships.author.data.id'] = ['required','integer'];
-        }
-
         return $rules;
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->routeIs('users.tasks.store')) {
+            $this->merge([
+                'user' => $this->route('user')
+            ]);
+        }
     }
 }

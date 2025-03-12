@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\Permissions\V1\Abilities;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,10 @@ class AuthController extends Controller
         $user = Auth::user();
 
         return $this->success('Authenticated', [
-            'token' => $user->createToken('API token for '.$user->email)->plainTextToken
+            'token' => $user->createToken(
+                'API token for '.$user->email,
+                Abilities::getAbilities($user)
+                )->plainTextToken
         ]);
     }
 
@@ -44,7 +48,10 @@ class AuthController extends Controller
 
         return $this->success('User registered successfully.', [
             'user' => $user,
-            'token' => $user->createToken('API token for '.$user->email)->plainTextToken,
+            'token' => $user->createToken(
+                'API token for '.$user->email,
+                Abilities::getAbilities($user)
+                )->plainTextToken,
         ],201);
     }
 }

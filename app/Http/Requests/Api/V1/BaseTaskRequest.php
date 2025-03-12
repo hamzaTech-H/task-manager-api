@@ -30,7 +30,7 @@ class BaseTaskRequest extends FormRequest
     public function messages() 
     {
         return [
-            'data.attributes.status' => 'The data.attributes.status value is invalid. Please use A, C, H, or X.'
+            'data.attributes.status' => 'The data.attributes.status value is invalid. Please use pending, in_progress, completed, on_hold, cancelled'
         ];
     }
 }
