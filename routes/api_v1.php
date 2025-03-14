@@ -10,7 +10,9 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::put('tasks/{task}', [TaskController::class, 'replace']);
     Route::patch('tasks/{task}', [TaskController::class, 'update']);
 
-    Route::apiResource('users', UserController::class);
+    Route::apiResource('users', UserController::class)->except('update');
+    Route::put('users/{user}', [UserController::class, 'replace']);
+    Route::patch('users/{user}', [UserController::class, 'update']);
 
     Route::apiResource('users.tasks', UserTasksController::class)->except('update');
     Route::put('users/{user}/tasks/{task}', [UserTasksController::class, 'replace']);

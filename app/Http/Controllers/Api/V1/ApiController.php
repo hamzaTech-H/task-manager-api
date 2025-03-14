@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Traits\ApiResponse;
-use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {

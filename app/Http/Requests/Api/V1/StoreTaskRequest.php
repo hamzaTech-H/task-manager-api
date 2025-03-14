@@ -33,6 +33,10 @@ class StoreTaskRequest extends BaseTaskRequest
             $authorIdAttr => ['required','integer','exists:users,id',"size:{$user->id}"]
         ];
 
+        if ($user->tokenCan(Abilities::CreateTask)) {
+            $rules[$authorIdAttr] = ['required','integer','exists:users,id'];
+        }
+
         return $rules;
     }
 

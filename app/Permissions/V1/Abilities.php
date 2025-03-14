@@ -9,10 +9,15 @@ final class Abilities {
     public const UpdateTask = 'task:update';
     public const ReplaceTask = 'task:replace';
     public const DeleteTask = 'task:delete';
-
+    
     public const CreateOwnTask = 'task:own:create';
     public const UpdateOwnTask = 'task:own:update';
     public const DeleteOwnTask = 'task:own:delete';
+
+    public const CreateUser = 'user:create';
+    public const UpdateUser = 'user:update';
+    public const ReplaceUser = 'user:replace';
+    public const DeleteUser = 'user:delete';
 
     public static function getAbilities(User $user) {
         if ($user->is_manager) {
@@ -21,6 +26,10 @@ final class Abilities {
                 self::UpdateTask,
                 self::ReplaceTask,
                 self::DeleteTask,
+                self::CreateUser,
+                self::UpdateUser,
+                self::ReplaceUser,
+                self::DeleteUser,
             ];
         } else {
             return [
