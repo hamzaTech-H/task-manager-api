@@ -9,7 +9,7 @@ class BaseTaskRequest extends FormRequest
    
     public function mappedAttributes() 
     {
-        $attributeMap = [
+        $attributesMap = [
             'data.attributes.title' => 'title',
             'data.attributes.description' => 'description',
             'data.attributes.status' => 'status',
@@ -17,14 +17,10 @@ class BaseTaskRequest extends FormRequest
             'data.attributes.dueDate' => 'due_date'
         ];
 
-        $attributesToUpdate = [];
-        foreach ($attributeMap as $key => $attribute) {
-            if ($this->has($key)) {
-                $attributesToUpdate[$attribute] = $this->input($key);
-            }
-        }
-
-        return $attributesToUpdate;
+        return collect($attributesMap)
+            ->filter(fn($attribute, $key) => $this->has($key))
+            ->mapWithKeys(fn($attribute, $key) => [$attribute => $attribute === 'password' ? bcrypt($this->input($key)) : $this->input($key)])
+            ->all();
     }
 
     public function messages() 
