@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Api\V1;
 
+use App\Enums\TaskStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class ReplaceTaskRequest extends BaseTaskRequest
 {
@@ -24,7 +26,7 @@ class ReplaceTaskRequest extends BaseTaskRequest
         return [
             'data.attributes.title' => ['required','string'],
             'data.attributes.description' => ['required','string'],
-            'data.attributes.status' => ['required','string','in:pending,in_progress,completed,on_hold,cancelled'],
+            'data.attributes.status' => ['required','string',new Enum(TaskStatus::class)],
             'data.attributes.dueDate' => ['nullable', 'date'],
         ];
     }

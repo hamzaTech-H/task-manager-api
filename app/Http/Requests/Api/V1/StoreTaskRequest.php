@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\Api\V1;
 
+use App\Enums\TaskStatus;
 use App\Permissions\V1\Abilities;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreTaskRequest extends BaseTaskRequest
 {
@@ -28,7 +30,7 @@ class StoreTaskRequest extends BaseTaskRequest
         $rules = [
             'data.attributes.title' => ['required','string'],
             'data.attributes.description' => ['required','string'],
-            'data.attributes.status' => ['required','string','in:pending,in_progress,completed,on_hold,cancelled'],
+            'data.attributes.status' => ['required','string', new Enum(TaskStatus::class)],
             'data.attributes.dueDate' => ['nullable', 'date'],
             $authorIdAttr => ['required','integer','exists:users,id',"size:{$user->id}"]
         ];
