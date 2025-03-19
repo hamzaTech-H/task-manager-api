@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Exports\TasksExport;
 use App\Http\Filters\V1\TaskFilter;
 use App\Http\Requests\Api\V1\ReplaceTaskRequest;
 use App\Http\Requests\Api\V1\StoreTaskRequest;
 use App\Http\Requests\Api\V1\UpdateTaskRequest;
 use App\Http\Resources\V1\TaskResource;
+use App\Mail\TaskExportCompleted;
 use App\Models\Task;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends ApiController
 {
@@ -74,4 +78,24 @@ class TaskController extends ApiController
 
             return $this->success('task successfully deleted');
     }
+
+    public function exportTasks(Request $request)
+    {
+        $this->authorize('export', Task::class);
+
+        $fileName = 'tasks.xlsx';
+        $downloadUrl = asset(Storage::url($fileName));
+       
+        $user = $request->user();
+        (new TasksExport())->store($fileName, 'public')->chain([
+            function () use($downloadUrl, $user) {
+                Mail::to($user)->queue(new TaskExportCompleted($downloadUrl));
+            }
+        ]);
+
+        return response()->json([
+            'message' => 'Task export is in progress. You will receive an email with the download link once it is ready.',
+        ]);
+    }
+
 }

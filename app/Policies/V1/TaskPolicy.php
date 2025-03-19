@@ -44,4 +44,8 @@ class TaskPolicy
 
         return false;
     }
+
+    public function export(User $user) {
+        return $user->tokenCan(Abilities::ExportTask);
+    }
  }

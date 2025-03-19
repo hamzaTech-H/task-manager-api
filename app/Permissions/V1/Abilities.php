@@ -14,6 +14,8 @@ final class Abilities {
     public const UpdateOwnTask = 'task:own:update';
     public const DeleteOwnTask = 'task:own:delete';
 
+    public const ExportTask = 'task:export';
+
     public const CreateUser = 'user:create';
     public const UpdateUser = 'user:update';
     public const ReplaceUser = 'user:replace';
@@ -30,6 +32,7 @@ final class Abilities {
                 self::UpdateUser,
                 self::ReplaceUser,
                 self::DeleteUser,
+                self::ExportTask
             ];
         } else {
             return [

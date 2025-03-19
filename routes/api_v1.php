@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\CsvReportController;
 use App\Http\Controllers\Api\V1\TaskController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\UserTasksController;
@@ -17,4 +18,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('users.tasks', UserTasksController::class)->except('update');
     Route::put('users/{user}/tasks/{task}', [UserTasksController::class, 'replace']);
     Route::patch('users/{user}/tasks/{task}', [UserTasksController::class, 'update']);
+
+    Route::post('tasks/export', [TaskController::class, 'exportTasks']);    
 });
